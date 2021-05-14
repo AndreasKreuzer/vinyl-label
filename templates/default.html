@@ -1,0 +1,24 @@
+<html>
+	<head>	
+	</head>
+	<body>
+		<div>
+			<div>
+				<div>{{ album.name }}</div><div>{{ album.artist }}</div>
+			</div>
+			<div>
+				{% for track in tracks %}
+				<div>
+					<div>{{ track.pos }}</div><div>{{ track.track }}</div><div>{{ track.length }}</div>
+				</div>
+				<div>
+					<div>{{ track.key }}</div><div>{{ track.genre }}</div><div>{{ track.bpm }}</div><div>{{ track.rpm }}</div>
+				</div>
+				{% endfor %}
+			</div>
+			<div>
+				<div>{{ album.publisher }}</div><div>{{ album.country }}</div><div>{{ album.year }}</div>
+			</div>
+		</div>
+	</body>
+</html>

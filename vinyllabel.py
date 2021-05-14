@@ -1,6 +1,7 @@
 # import main modules
 import json
 import argparse
+from jinja2 import Environment, FileSystemLoader
 from mutagen.aiff import AIFF
 from mutagen import MutagenError
 
@@ -18,6 +19,7 @@ class VinylLabel:
     config = {}
     data = {}
     args = {}
+    tpl = 0
 
     def __init__(self):
         """Constructor for core class.
@@ -27,13 +29,20 @@ class VinylLabel:
         """
         # configure commandline arguments
         parser = argparse.ArgumentParser(description='Create a printable label for vinyls using meta datafrom audio files.')
-        parser.add_argument('file',
+        parser.add_argument('--file',
                 metavar='F',
                 help='path to file')
+        parser.add_argument('--template',
+                metavar='T',
+                default='default.html',
+                help='template to use')
         self.args = parser.parse_args()
 
         # load global configuration
         self.loadConfig()
+
+        # load template
+        self.loadTemplate(self.args.template)
 
     def loadConfig(self):
         """Read global config file."""
@@ -44,6 +53,37 @@ class VinylLabel:
         """Write global config file."""
         with open(config_file, "w") as f:
             json.dump(self.config, f, indent=4, sort_keys=True)
+
+    def loadTemplate(self, template):
+        """Load jinja2 template."""
+        file_loader = FileSystemLoader(self.config['application']['template_dir'])
+        env = Environment(loader=file_loader)
+
+        self.tpl = env.get_template(template)
+
+    def processData(self):
+        """Process data from ID3 into jinja2 template."""
+
+        album = {
+                'name': self.data.tags['TALB'].text[0],
+                'artist': self.data.tags['TPE1'].text[0],
+                'publisher': self.data.tags['TPUB'].text[0],
+                #'country': self.data.tags['TXXX']['COUNTRY'].text[0],
+                'year': self.data.tags['TDRC'].text[0]
+        }
+        track = {
+                'pos': self.data.tags['TRCK'].text[0],
+                'title': self.data.tags['TALB'].text[0],
+                'length': self.data.tags['TALB'].text[0],
+                'key': self.data.tags['TALB'].text[0],
+                'genre': self.data.tags['TCON'].text[0],
+                'bpm': self.data.tags['TALB'].text[0],
+                'rpm': self.data.tags['TALB'].text[0]
+        }
+        tracks = [ track ]
+
+        output = self.tpl.render(album=album, tracks=tracks)
+        print(output)
 
     def loadFile(self, filepath):
         """Loads a audio file"""
@@ -57,11 +97,13 @@ class VinylLabel:
     def run(self):
         """Runs main routine."""
         self.loadFile(self.args.file)
-        print(type(self.data))
-        print(self.data.pprint())
+        #print(type(self.data))
+        #print(self.data.pprint())
         #print(self.data.tags['TPE1'].text[0]) #Artist
         #print(self.data.tags["TIT2"].text[0]) #Track
         #print(self.data.tags["TDRC"].text[0]) #Release
+
+        self.processData()
 
 # if this is run as a program (versus being imported),
 # create a root window and an instance of our example,
