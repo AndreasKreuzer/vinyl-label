@@ -20,6 +20,7 @@ class VinylLabel:
     data = {}
     args = {}
     tpl = 0
+    id3 = {}
 
     def __init__(self):
         """Constructor for core class.
@@ -36,6 +37,11 @@ class VinylLabel:
                 metavar='T',
                 default='default.html',
                 help='template to use')
+        parser.add_argument('--debug',
+                metavar='D',
+                type=bool,
+                help='print additional information')
+
         self.args = parser.parse_args()
 
         # load global configuration
@@ -68,13 +74,13 @@ class VinylLabel:
                 'name': self.data.tags['TALB'].text[0],
                 'artist': self.data.tags['TPE1'].text[0],
                 'publisher': self.data.tags['TPUB'].text[0],
-                #'country': self.data.tags['TXXX']['COUNTRY'].text[0],
+                'country': self.data.tags['TXXX:COUNTRY'].text[0],
                 'year': self.data.tags['TDRC'].text[0]
         }
         track = {
                 'pos': self.data.tags['TRCK'].text[0],
                 'title': self.data.tags['TALB'].text[0],
-                'length': self.data.tags['TALB'].text[0],
+                'length': self.data.info.length,
                 'key': self.data.tags['TALB'].text[0],
                 'genre': self.data.tags['TCON'].text[0],
                 'bpm': self.data.tags['TALB'].text[0],
@@ -94,14 +100,21 @@ class VinylLabel:
         except MutagenError:
             print("Loading file", filepath, "failed")
 
+    def prettyPrint(self, d, indent=0):
+        for key, value in d.items():
+            if key == 'APIC:':
+                continue
+            print('\t' * indent + str(key))
+            if isinstance(value, dict):
+                pretty(value, indent+1)
+            else:
+                print('\t' * (indent+1) + str(value))
+
     def run(self):
         """Runs main routine."""
         self.loadFile(self.args.file)
-        #print(type(self.data))
-        #print(self.data.pprint())
-        #print(self.data.tags['TPE1'].text[0]) #Artist
-        #print(self.data.tags["TIT2"].text[0]) #Track
-        #print(self.data.tags["TDRC"].text[0]) #Release
+        if self.args.debug:
+            self.prettyPrint(self.data.tags)
 
         self.processData()
 
