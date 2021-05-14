@@ -93,7 +93,6 @@ class VinylLabel:
                     album[key] = self.data.tags[value].text[0]
 
             for key, value in self.config['keymapping']['track'].items():
-                print(key,"  ",value)
                 if self.data.tags.get(value):
                     track[key] = self.data.tags[value].text[0]
 
