@@ -1,5 +1,6 @@
 # import main modules
 import json
+import argparse
 from mutagen.aiff import AIFF
 from mutagen import MutagenError
 
@@ -16,6 +17,7 @@ TODO:
 class VinylLabel:
     config = {}
     data = {}
+    args = {}
 
     def __init__(self):
         """Constructor for core class.
@@ -23,6 +25,13 @@ class VinylLabel:
         Keyword arguments:
 
         """
+        # configure commandline arguments
+        parser = argparse.ArgumentParser(description='Create a printable label for vinyls using meta datafrom audio files.')
+        parser.add_argument('file',
+                metavar='F',
+                help='path to file')
+        self.args = parser.parse_args()
+
         # load global configuration
         self.loadConfig()
 
@@ -47,9 +56,8 @@ class VinylLabel:
 
     def run(self):
         """Runs main routine."""
-
-        self.loadFile("test/1000/Side A1.aiff")
-        #print(type(self.data))
+        self.loadFile(self.args.file)
+        print(type(self.data))
         print(self.data.pprint())
         #print(self.data.tags['TPE1'].text[0]) #Artist
         #print(self.data.tags["TIT2"].text[0]) #Track
