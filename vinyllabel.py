@@ -1,4 +1,6 @@
 # import main modules
+import os, sys
+from os.path import isfile, join
 import json
 import argparse
 from jinja2 import Environment, FileSystemLoader
@@ -30,9 +32,9 @@ class VinylLabel:
         """
         # configure commandline arguments
         parser = argparse.ArgumentParser(description='Create a printable label for vinyls using meta datafrom audio files.')
-        parser.add_argument('--file',
-                metavar='F',
-                help='path to file')
+        parser.add_argument('path',
+                metavar='PATH',
+                help='directory to get files from')
         parser.add_argument('--template',
                 metavar='T',
                 default='default.html',
@@ -70,35 +72,53 @@ class VinylLabel:
     def processData(self):
         """Process data from ID3 into jinja2 template."""
 
-        album = {
-                'name': self.data.tags['TALB'].text[0],
-                'artist': self.data.tags['TPE1'].text[0],
-                'publisher': self.data.tags['TPUB'].text[0],
-                'country': self.data.tags['TXXX:COUNTRY'].text[0],
-                'year': self.data.tags['TDRC'].text[0]
-        }
-        track = {
-                'pos': self.data.tags['TRCK'].text[0],
-                'title': self.data.tags['TALB'].text[0],
-                'length': self.data.info.length,
-                'key': self.data.tags['TALB'].text[0],
-                'genre': self.data.tags['TCON'].text[0],
-                'bpm': self.data.tags['TALB'].text[0],
-                'rpm': self.data.tags['TALB'].text[0]
-        }
-        tracks = [ track ]
+        dirs = os.listdir(self.args.path)
+
+        album = {}
+        tracks = []
+
+        for file in dirs:
+            fname, fext = os.path.splitext(file)
+
+            if fext == ".aiff":
+                if not self.loadAIFF(join(self.args.path,file)):
+                    exit
+            else:
+                continue
+            
+            track = {}
+
+            for key, value in self.config['keymapping']['album'].items():
+                if not album.get(key):
+                    album[key] = self.data.tags[value].text[0]
+
+            for key, value in self.config['keymapping']['track'].items():
+                print(key,"  ",value)
+                if self.data.tags.get(value):
+                    track[key] = self.data.tags[value].text[0]
+
+            track['length'] = self.data.info.length
+ 
+            tracks.append(track)
 
         output = self.tpl.render(album=album, tracks=tracks)
         print(output)
 
-    def loadFile(self, filepath):
+    def loadAIFF(self, filepath):
         """Loads a audio file"""
+        #TODO: raise exeption
         try:
             self.data = AIFF(filepath)
+            if self.args.debug:
+                self.prettyPrint(self.data.tags)
         except (FileNotFoundError,IOError):
             print("Wrong file or file path")
+            return 0
         except MutagenError:
             print("Loading file", filepath, "failed")
+            return 0
+        
+        return 1
 
     def prettyPrint(self, d, indent=0):
         for key, value in d.items():
@@ -112,10 +132,6 @@ class VinylLabel:
 
     def run(self):
         """Runs main routine."""
-        self.loadFile(self.args.file)
-        if self.args.debug:
-            self.prettyPrint(self.data.tags)
-
         self.processData()
 
 # if this is run as a program (versus being imported),

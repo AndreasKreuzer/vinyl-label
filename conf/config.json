@@ -1,5 +1,23 @@
 {
     "application": {
         "template_dir": "templates/"
+    },
+    "keymapping": {
+	"album": {
+	    "name": "TALB",
+	    "artist": "TPE2",
+	    "publisher": "TPUB",
+	    "country": "TXXX:COUNTRY",
+	    "year": "TDRC"
+	},
+	"track": {
+	    "pos": "TRCK",
+	    "title": "TIT2",
+	    "artist": "TPE1",
+	    "key": "KEY",
+	    "genre": "TCON",
+	    "bpm": "BPM",
+	    "rpm": "COMM:eng"
+	}
     }
 }
