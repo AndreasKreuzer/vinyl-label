@@ -1,0 +1,58 @@
+.vl-label {
+	font-family: arial;
+	font-size: 12px;
+}
+.vl-label div {
+	margin: 0px;
+	display: inline-block;
+}
+div.vl-label {
+	width: 600px;
+}
+div.vl-header-span, div.vl-footer-span, div.vl-track-span {
+	width: 100%;
+}
+div.vl-track-line1, div.vl-track-line2 {
+	width: 100%;
+}
+div.vl-album-name, div.vl-album-artist {
+	width: 50%;
+}
+
+div.vl-album-name, div.vl-title {
+	font-weight: bold;
+}
+
+
+div.vl-pos {
+	width: 10%;
+}
+div.vl-title {
+	width: 70%;
+}
+div.vl-length {
+	width: 20%;
+}
+
+div.vl-key {
+	width: 10%;
+}
+div.vl-genre {
+	width: 70%;
+}
+div.vl-bpm {
+	width: 10%;
+}
+div.vl-rpm {
+	width: 10%;
+}
+
+div.vl-publisher {
+	width: 60%;
+}
+div.vl-country {
+	width: 30%;
+}
+div.vl-year {
+	width: 10%;
+}

@@ -1,23 +1,24 @@
 <html>
-	<head>	
+	<head>
+		<link rel="stylesheet" href="default.css">
 	</head>
 	<body>
-		<div>
-			<div>
-				<div>{{ album.name }}</div><div>{{ album.artist }}</div>
+		<div class="vl-label">
+			<div class="vl-header-span">
+				<div class="vl-album-name">{{ album.name }}</div><div class="vl-album-artist">{{ album.artist }}</div>
 			</div>
-			<div>
+			<div class="vl-track-span">
 				{% for track in tracks %}
-				<div>
-					<div>{{ track.pos }}</div><div>{{ track.title }}</div><div>{{ track.length }}</div>
+				<div class="vl-track-line1">
+					<div class="vl-pos">{{ track.pos }}</div><div class="vl-title">{{ track.title }}</div><div class="vl-length">{{ track.length }}</div>
 				</div>
-				<div>
-					<div>{{ track.key }}</div><div>{{ track.genre }}</div><div>{{ track.bpm }}</div><div>{{ track.rpm }}</div>
+				<div class="vl-track-line2">
+					<div class="vl-key">{{ track.key }}</div><div class="vl-genre">{{ track.genre }}</div><div class="vl-bpm">{{ track.bpm }}</div><div class="vl-rpm">{{ track.rpm }}</div>
 				</div>
 				{% endfor %}
 			</div>
-			<div>
-				<div>{{ album.publisher }}</div><div>{{ album.country }}</div><div>{{ album.year }}</div>
+			<div class="vl-footer-span">
+				<div class="vl-publisher">{{ album.publisher }}</div><div class="vl-country">{{ album.country }}</div><div class="vl-year">{{ album.year }}</div>
 			</div>
 		</div>
 	</body>
