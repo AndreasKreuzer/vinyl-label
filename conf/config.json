@@ -16,7 +16,7 @@
 	    "artist": "TPE1",
 	    "key": "TKEY",
 	    "genre": "TCON",
-	    "bpm": "BPM",
+	    "bpm": "TBPM",
 	    "rpm": "COMM::eng"
 	}
     },
