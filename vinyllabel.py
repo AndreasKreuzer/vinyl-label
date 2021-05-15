@@ -92,11 +92,19 @@ class VinylLabel:
 
             for key, value in self.config['keymapping']['album'].items():
                 if not album.get(key):
-                    album[key] = self.data.tags[value].text[0]
+                    try:
+                        album[key] = self.data.tags[value].text[0]
+                    except:
+                        #TODO: raise exeption
+                        continue
 
             for key, value in self.config['keymapping']['track'].items():
                 if self.data.tags.get(value):
-                    track[key] = self.data.tags[value].text[0]
+                    try:
+                        track[key] = self.data.tags[value].text[0]
+                    except:
+                        #TODO: raise exeption
+                        continue
             
             # calculation of length in h:m:s out of float
             length = self.data.info.length
