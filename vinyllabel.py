@@ -138,7 +138,12 @@ class VinylLabel:
 
             tracks.append(track)
 
-        output = self.tpl.render(album=album, tracks=tracks)
+        if len(tracks):
+            sortedtracks = sorted(tracks, key=lambda k: k['pos'])
+            output = self.tpl.render(album=album, tracks=sortedtracks)
+        else:
+            output = self.tpl.render(album=album, tracks=tracks)
+
         print(output)
 
     def loadAIFF(self, filepath):
