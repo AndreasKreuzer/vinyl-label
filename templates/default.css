@@ -5,6 +5,7 @@
 .vl-label div {
 	margin: 0px;
 	display: inline-block;
+	vertical-align: top;
 }
 div.vl-label {
 	width: 105mm;
@@ -16,7 +17,7 @@ div.vl-header-span, div.vl-footer-span, div.vl-track-span {
 div.vl-header-span, div.vl-footer-span {
 	background-color: #d3e7aa;
 }
-div.vl-track-line1, div.vl-track-line2 {
+div.vl-track-line1 {
 	width: 100%;
 }
 div.vl-track-line1 {
@@ -25,6 +26,8 @@ div.vl-track-line1 {
 div.vl-track-line2 {
 	padding-top: 3px;
 	margin-bottom: 3px;
+	width: 90%;
+	float: right;
 }
 div.vl-album-name, div.vl-album-artist {
 	width: 50%;
