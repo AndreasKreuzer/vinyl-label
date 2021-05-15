@@ -1,6 +1,7 @@
 # import main modules
 import os, sys
 from os.path import isfile, join
+import math
 import json
 import argparse
 from jinja2 import Environment, FileSystemLoader
@@ -95,8 +96,21 @@ class VinylLabel:
             for key, value in self.config['keymapping']['track'].items():
                 if self.data.tags.get(value):
                     track[key] = self.data.tags[value].text[0]
+            
+            # calculation of length in h:m:s out of float
+            length = self.data.info.length
+            lstr = ""
+            if length >= 600:
+                floor = math.floor(length / 600)
+                length = length - (floor * 600)
+                lstr = str(floor) + "h "
+            if length >= 60:
+                floor = math.floor(length / 60)
+                length = length - (floor * 60)
+                lstr = lstr + str(floor) + "m "
+            lstr = lstr + str(math.floor(length)) + "s"
 
-            track['length'] = self.data.info.length
+            track['length'] = lstr
  
             tracks.append(track)
 
