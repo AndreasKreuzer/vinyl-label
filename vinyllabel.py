@@ -157,15 +157,8 @@ class VinylLabel:
         
         return 1
 
-    def prettyPrint(self, d, indent=0):
-        for key, value in d.items():
-            if key == 'APIC:':
-                continue
-            print('\t' * indent + str(key))
-            if isinstance(value, dict):
-                pretty(value, indent+1)
-            else:
-                print('\t' * (indent+1) + str(value))
+    def prettyPrint(self, d, indent=4):
+        print(json.dumps(d, indent=indent))
 
     def run(self):
         """Runs main routine."""
