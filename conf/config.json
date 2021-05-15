@@ -17,7 +17,7 @@
 	    "key": "TKEY",
 	    "genre": "TCON",
 	    "bpm": "BPM",
-	    "rpm": "COMM:eng"
+	    "rpm": "COMM::eng"
 	}
     }
 }
