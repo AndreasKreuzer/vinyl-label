@@ -82,7 +82,7 @@ class VinylLabel:
         for file in dirs:
             fname, fext = os.path.splitext(file)
 
-            if fext == ".aiff":
+            if fext == ".aiff" or fext == ".aif":
                 if not self.loadAIFF(join(self.args.path,file)):
                     exit
             else:
