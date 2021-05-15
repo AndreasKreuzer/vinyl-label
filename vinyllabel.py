@@ -94,6 +94,13 @@ class VinylLabel:
                 if not album.get(key):
                     try:
                         album[key] = self.data.tags[value].text[0]
+                        if self.config['regex']['album'][key]:
+                            m = re.search(self.config['regex']['album'][key], self.data.tags[value].text[0])
+                            if m.group(1):
+                                album[key] = m.group(1)
+                            else:
+                                #TODO: raise exeption
+                                continue
                     except:
                         #TODO: raise exeption
                         continue
@@ -102,6 +109,13 @@ class VinylLabel:
                 if self.data.tags.get(value):
                     try:
                         track[key] = self.data.tags[value].text[0]
+                        if self.config['regex']['track'][key]:
+                            m = re.search(self.config['regex']['track'][key], self.data.tags[value].text[0])
+                            if m.group(1):
+                                track[key] = m.group(1)
+                            else:
+                                #TODO: raise exeption
+                                continue
                     except:
                         #TODO: raise exeption
                         continue
