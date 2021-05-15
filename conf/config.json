@@ -14,7 +14,7 @@
 	    "pos": "TRCK",
 	    "title": "TIT2",
 	    "artist": "TPE1",
-	    "key": "KEY",
+	    "key": "TKEY",
 	    "genre": "TCON",
 	    "bpm": "BPM",
 	    "rpm": "COMM:eng"
