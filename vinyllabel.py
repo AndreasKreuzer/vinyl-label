@@ -2,6 +2,7 @@
 import os, sys
 from os.path import isfile, join
 import math
+import re
 import json
 import argparse
 from jinja2 import Environment, FileSystemLoader
@@ -109,9 +110,32 @@ class VinylLabel:
                 length = length - (floor * 60)
                 lstr = lstr + str(floor) + "m "
             lstr = lstr + str(math.floor(length)) + "s"
-
             track['length'] = lstr
- 
+
+            # using vinyl track pos if letters are in pos tag
+            m = re.search('^([A-Za-z]*)([0-9]*)[/]?([0-9]*)$', track['pos'])
+
+            postotal = ''
+            posvinyl = ''
+            posnumber = ''
+            if len(m.group(3)):
+                postotal = m.group(3)
+                track['pos'] = '/' + postotal
+            if len(m.group(1)):
+                posvinyl = m.group(1)
+                if len(m.group(2)):
+                    posvinyl = posvinyl + m.group(2)
+                else:
+                    posvinyl = posvinyl + '1'
+                track['pos'] = posvinyl + track['pos']
+            else:
+                posnumber = m.group(2)
+                track['pos'] = posnumber + track['pos']
+
+            track['postotal'] = postotal
+            track['posvinyl'] = posvinyl
+            track['posnumber'] = posnumber
+
             tracks.append(track)
 
         output = self.tpl.render(album=album, tracks=tracks)
