@@ -126,12 +126,12 @@ class VinylLabel:
             if length >= 600:
                 floor = math.floor(length / 600)
                 length = length - (floor * 600)
-                lstr = str(floor) + "h "
+                lstr = str(floor) + " <span class=\"vl-label\">h</span> "
             if length >= 60:
                 floor = math.floor(length / 60)
                 length = length - (floor * 60)
-                lstr = lstr + str(floor) + "m "
-            lstr = lstr + str(math.floor(length)) + "s"
+                lstr = lstr + str(floor) + " <span class=\"vl-label\">m</span> "
+            lstr = lstr + str(math.floor(length)) + " <span class=\"vl-label\">s</span>"
             track['length'] = lstr
 
             # using vinyl track pos if letters are in pos tag

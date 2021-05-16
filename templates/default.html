@@ -1,6 +1,7 @@
 <html>
 	<head>
-		<link rel="stylesheet" href="default.css">
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="default/print.css">
 	</head>
 	<body>
 		<div class="vl-label">
@@ -9,11 +10,16 @@
 			</div>
 			<div class="vl-track-span">
 				{% for track in tracks %}
+				<img class="vl-energy" src="default/energy-{{ track.energy }}.png" />
 				<div class="vl-track-line1">
-					<div class="vl-pos">{{ track.posvinyl }}</div><div class="vl-title">{{ track.title }}</div><div class="vl-length">{{ track.length }}</div>
+					<div class="vl-pos">{{ track.posvinyl }}</div><div class="vl-title">{{ track.title }}</div>
+					<div class="vl-length">{{ track.length }}</div>
 				</div>
 				<div class="vl-track-line2">
-					<div class="vl-key">{{ track.key }}</div><div class="vl-genre">{{ track.genre }}</div><div class="vl-bpm">{{ track.bpm }}bpm ({{ track.energy }})</div><div class="vl-rpm">{{ track.rpm }}rpm</div>
+					<div class="vl-genre">{{ track.genre }}</div>
+					<div class="vl-rpm">{{ track.rpm }} <span class="vl-label">rpm</span></div>
+					<div class="vl-bpm">{{ track.bpm }} <span class="vl-label">bpm</span></div>
+					<div class="vl-key">{{ track.key }}</div>
 				</div>
 				{% endfor %}
 			</div>

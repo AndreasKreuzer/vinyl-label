@@ -1,0 +1,93 @@
+/* -----------------------------------
+ * main label styling
+ */
+.vl-label {
+	font-family: “Lucida Console”, “Lucida Sans Typewriter”, Monaco, “Bitstream Vera Sans Mono”, monospace;
+	font-size: 12px;
+}
+.vl-label div {
+	margin: 0px;
+	display: inline-block;
+	vertical-align: top;
+}
+div.vl-label {
+	width: 105mm;
+	padding: 10px 5px 10px 5px;
+}
+
+/* -----------------------------------
+ * block span elements
+ */
+div.vl-header-span, div.vl-footer-span, div.vl-track-span {
+	width: 100%;
+}
+div.vl-header-span {
+	border-bottom: 1px solid black;
+	font-size: 14px;
+	margin-bottom: 5px;
+	padding-bottom: 5px;
+}
+div.vl-track-line1 {
+	width: 90%;
+}
+div.vl-track-line2 {
+	padding: 3px 0px 12px 0px;
+	margin-bottom: 5px;
+	border-bottom: 1px solid #bbbbbb;
+	width: 90%;
+}
+div.vl-footer-span {
+	font-size: 10px;
+	margin-top: 3px;
+}
+
+/* -----------------------------------
+ * individual inline elements
+ */
+div.vl-album-name {
+	padding-left: 5px;
+}
+div.vl-album-artist {
+	padding-right: 5px;
+	float: right;
+}
+div.vl-album-artist, div.vl-length, div.vl-produced {
+	text-align: right;
+}
+div.vl-album-name, div.vl-title, div.vl-album-artist, div.vl-key {
+	font-weight: bold;
+}
+div.vl-pos {
+	width: 25px;
+	padding-left: 5px;
+}
+div.vl-length {
+	float: right;
+	font-size: 10px;
+}
+div.vl-genre {
+	color: grey;
+	margin-left: 30px;
+	font-size: 10px;
+}
+div.vl-key, div.vl-bpm, div.vl-rpm {
+	float: right;
+	padding-left: 10px;
+}
+img.vl-energy {
+	float: right;
+	width: 28px;
+	height: 28px;
+	margin-right: 5px;
+}
+div.vl-publisher {
+	padding-left: 5px;
+}
+div.vl-produced {
+	padding-right: 5px;
+	float: right;
+}
+span.vl-label {
+	font-size: 10px;
+	color: grey;
+}
