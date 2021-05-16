@@ -9,6 +9,7 @@ import argparse
 from jinja2 import Environment, FileSystemLoader
 from mutagen.aiff import AIFF
 from mutagen import MutagenError
+from waveform import *
 
 # importing sub modules from package
 
@@ -78,16 +79,18 @@ class VinylLabel:
         f.write(label)
         f.close()
 
-        mkpath(join(path, "library"))
-        copy_tree(join(self.config['application']['template_dir'], template), join(path, "library"))
+        copy_tree(join(self.config['application']['template_dir'], template), join(path, self.config["export"]["library"]))
 
     def processData(self):
         """Process data from ID3 into jinja2 template."""
 
         dirs = os.listdir(self.args.path)
-
+        
         album = {}
         tracks = []
+        trackindex = 0
+
+        mkpath(join(self.args.path, self.config["export"]["library"]))
 
         for file in dirs:
             fname, fext = os.path.splitext(file)
@@ -97,8 +100,16 @@ class VinylLabel:
                     exit
             else:
                 continue
+
+            trackindex = trackindex + 1
             
+            print("Generating waveform picture for:", file)
+            waveform.open(join(self.args.path,file))
+            waveform.save(join(self.args.path, self.config["export"]["library"], "wave-" + str(trackindex) + ".png"))
+
+            print("Processing ID3 tags for:", file)
             track = {}
+            track["waveform"] = "wave-" + str(trackindex) + ".png"
 
             for key, value in self.config['keymapping']['album'].items():
                 if not album.get(key):
@@ -170,15 +181,13 @@ class VinylLabel:
 
             tracks.append(track)
 
-        env = {
-            "library": "library"
-        }
+        
 
         if len(tracks):
             sortedtracks = sorted(tracks, key=lambda k: k['pos'])
-            output = self.tpl.render(album=album, tracks=sortedtracks, env=env)
+            output = self.tpl.render(album=album, tracks=sortedtracks, env=self.config["export"])
         else:
-            output = self.tpl.render(album=album, tracks=tracks, env=env)
+            output = self.tpl.render(album=album, tracks=tracks, env=self.config["export"])
 
         self.exportHTML(self.args.template, output, self.args.path)
 
@@ -220,6 +229,7 @@ class VinylLabel:
 # create a root window and an instance of our example,
 # then start the event loop
 if __name__ == "__main__":
+    waveform = Waveform(200, 60)
     vinlbl = VinylLabel()
     vinlbl.run()
 

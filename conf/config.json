@@ -2,6 +2,9 @@
     "application": {
         "template_dir": "templates/"
     },
+    "export": {
+	    "library": "library"
+    },
     "keymapping": {
 	"album": {
 	    "name": "TALB",
