@@ -1,6 +1,7 @@
 # import main modules
 import os, sys
 from os.path import isfile, join
+from distutils.dir_util import copy_tree, mkpath
 import math
 import re
 import json
@@ -39,7 +40,7 @@ class VinylLabel:
                 help='directory to get files from')
         parser.add_argument('--template',
                 metavar='T',
-                default='default.html',
+                default='default',
                 help='template to use')
         parser.add_argument('--debug',
                 metavar='D',
@@ -52,7 +53,7 @@ class VinylLabel:
         self.loadConfig()
 
         # load template
-        self.loadTemplate(self.args.template)
+        self.loadTemplate(self.args.template + ".html")
 
     def loadConfig(self):
         """Read global config file."""
@@ -70,6 +71,15 @@ class VinylLabel:
         env = Environment(loader=file_loader)
 
         self.tpl = env.get_template(template)
+
+    def exportHTML(self, template, label, path):
+        """Export HTML label"""
+        f = open(join(path, "label.html"), "w")
+        f.write(label)
+        f.close()
+
+        mkpath(join(path, "library"))
+        copy_tree(join(self.config['application']['template_dir'], template), join(path, "library"))
 
     def processData(self):
         """Process data from ID3 into jinja2 template."""
@@ -160,13 +170,17 @@ class VinylLabel:
 
             tracks.append(track)
 
+        env = {
+            "library": "library"
+        }
+
         if len(tracks):
             sortedtracks = sorted(tracks, key=lambda k: k['pos'])
-            output = self.tpl.render(album=album, tracks=sortedtracks)
+            output = self.tpl.render(album=album, tracks=sortedtracks, env=env)
         else:
-            output = self.tpl.render(album=album, tracks=tracks)
+            output = self.tpl.render(album=album, tracks=tracks, env=env)
 
-        print(output)
+        self.exportHTML(self.args.template, output, self.args.path)
 
     def loadAIFF(self, filepath):
         """Loads a audio file"""

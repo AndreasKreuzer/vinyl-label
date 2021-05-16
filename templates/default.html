@@ -1,7 +1,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<link rel="stylesheet" href="default/print.css">
+		<link rel="stylesheet" href="{{ env.library }}/print.css">
 	</head>
 	<body>
 		<div class="vl-label">
@@ -10,7 +10,7 @@
 			</div>
 			<div class="vl-track-span">
 				{% for track in tracks %}
-				<img class="vl-energy" src="default/energy-{{ track.energy }}.png" />
+				<img class="vl-energy" src="{{ env.library }}/energy-{{ track.energy }}.png" />
 				<div class="vl-track-line1">
 					<div class="vl-pos">{{ track.posvinyl }}</div><div class="vl-title">{{ track.title }}</div>
 					<div class="vl-length">{{ track.length }}</div>
