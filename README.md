@@ -82,3 +82,17 @@ Following keys are coming from the media file header or are altered by vinyltag.
 | posnumber | track number | Comes from pos key. |
 | postotal | total tracks | Comes from pos key. |
 | posvinyl | vinyl pos | Vinyl side letter and track number. |
+
+## Templates
+
+This program uses the jinja2 templating engine. As such you are free to generate any output file format (for example xml or csv). In the default template we are using as demonstration simple html enriched by a css stylesheet.
+
+See [jinja.palletsprojects.com](https://jinja.palletsprojects.com/en/3.0.x/) as a reference for syntax.
+
+### Template file
+
+Use the `--template` argument along with your jinja template file name. You are free to create multiple templates.
+
+### Template folder
+
+Use a folder with the same name as the template for additional data (for example a css stylesheet). This folder gets exported along with the rendered template.
