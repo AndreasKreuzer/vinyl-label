@@ -1,6 +1,12 @@
 /* -----------------------------------
  * main label styling
  */
+@media print {
+    @page {
+        size: 210mm 297mm;
+    }
+}
+
 .vl-label {
 	font-family: “Lucida Console”, “Lucida Sans Typewriter”, Monaco, “Bitstream Vera Sans Mono”, monospace;
 	font-size: 12px;
